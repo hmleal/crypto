@@ -4,6 +4,8 @@ executable(
 
     'Application.vala',
 
+    resources,
+
     dependencies: [
         dependency('gtk+-3.0')
     ],

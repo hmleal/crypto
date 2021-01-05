@@ -5,8 +5,15 @@ public class CoinHeaderBar : Gtk.HeaderBar {
 
         show_close_button = true;
 
+        var btn_image = new Gtk.Image.from_icon_name ("open-menu-symbolic", Gtk.IconSize.BUTTON);
+
         var add_button = new Gtk.Button.with_label ("Add");
-        var settings_button = new Gtk.Button.from_icon_name ("open-menu");
+        var settings_button = new Gtk.MenuButton ();
+            settings_button.set_image (btn_image);
+
+        var builder = new Gtk.Builder.from_resource ("/ui/menus.ui");
+        MenuModel menu = (MenuModel) builder.get_object ("app-menu");
+        settings_button.popover = new Gtk.Popover.from_model (settings_button, menu);
 
         pack_start (add_button);
         pack_end (settings_button);
@@ -85,6 +92,31 @@ public class Crypto : Gtk.Application {
         foreach (string coin in coins) {
             listBox.insert (new CoinWidget (coin), -1);
         }
+
+        var action = new GLib.SimpleAction ("about", null);
+        action.activate.connect (() => {
+            string[] authors = {
+                "Henrique Leal <hmleal@hotmail.com>",
+            };
+            string[] artists = {
+                "Henrique Leal <hmleal@hotmail.com>"
+            };
+
+            Gtk.show_about_dialog (window,
+                                   "artists", artists,
+                                   "authors", authors,
+                                   "translator-credits", "translator-credits",
+                                   "comments", "A simple GNOME 3 application to track cryptocurrencies",
+                                   "copyright", "\xc2\xa9 2020-2021 Henrique Leal",
+                                   "license-type", Gtk.License.LGPL_2_1,
+                                   "program-name", "Crypto",
+                                   "logo-icon-name", "LOGO",
+                                   "version", "0.0.1",
+                                   "website", "",
+                                   "wrap-license", true);
+        });
+
+        add_action (action);
 
         mainBox.pack_start (listBox);
 
