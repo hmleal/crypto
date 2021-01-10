@@ -1,52 +1,100 @@
-public class CoinHeaderBar : Gtk.HeaderBar {
-    construct {
-        title = "Crypto";
-        subtitle = "Find and track your digital coins";
+public class Coin {
 
-        show_close_button = true;
+    public string name;
+    public double value;
 
-        var btn_image = new Gtk.Image.from_icon_name ("open-menu-symbolic", Gtk.IconSize.BUTTON);
+    public Coin (string name, double value) {
+        this.name = name;
+        this.value = value;
+    }
 
-        var add_button = new Gtk.Button.with_label ("Add");
-        var settings_button = new Gtk.MenuButton ();
-            settings_button.set_image (btn_image);
+}
 
-        var builder = new Gtk.Builder.from_resource ("/ui/menus.ui");
-        MenuModel menu = (MenuModel) builder.get_object ("app-menu");
-        settings_button.popover = new Gtk.Popover.from_model (settings_button, menu);
+public class CoinService {
 
-        pack_start (add_button);
-        pack_end (settings_button);
+    public signal void request_prices_success (List<Coin> coins);
+
+    public void request_price () {
+        // https://min-api.cryptocompare.com/data/pricemulti?fsyms=BTC,ETH&tsyms=EUR
+
+        Soup.Session session = new Soup.Session ();
+        Soup.Message message = new Soup.Message ("GET", "https://min-api.cryptocompare.com/data/pricemulti?fsyms=BTC,ETH&tsyms=EUR");
+
+        session.queue_message (message, (sess, mess) => {
+            if (message.status_code == 200) {
+                var parser = new Json.Parser ();
+
+                try {
+                    parser.load_from_data ((string) mess.response_body.flatten ().data, -1);
+
+                    var coin_list = new List<Coin> ();
+
+                    var root = parser.get_root ();
+                    var root_object = root.get_object ();
+
+                    foreach (unowned string name in root_object.get_members ()) {
+
+                        unowned Json.Node item = root_object.get_member (name);
+                        var coin_value = process_coin (item);
+
+                        coin_list.append (new Coin(name, coin_value) );
+
+                    }
+                    request_prices_success (coin_list);
+
+                } catch (Error e) {
+                }
+            }
+        });
+
+    }
+
+    public double process_coin (Json.Node node) {
+        unowned Json.Object obj = node.get_object ();
+
+        return obj.get_double_member ("EUR");
     }
 }
 
 public class CoinWidget : Gtk.ListBoxRow {
     public Gtk.Box main_box;
 
-    public CoinWidget (string icon_name) {
+    public CoinWidget (string icon_name, string coin_value) {
+        visible = true;
+
         main_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
         main_box.margin = 12;
+        main_box.visible = true;
 
         var coin_name = new Gtk.Label ("Bitcoin");
             coin_name.halign = Gtk.Align.START;
+            coin_name.visible = true;
+
         var coin_abbr = new Gtk.Label ("BTC");
             coin_abbr.halign = Gtk.Align.START;
+            coin_abbr.visible = true;
 
-        var coin_price = new Gtk.Label ("$ 230.04");
+        var coin_price = new Gtk.Label (coin_value);
             coin_price.halign = Gtk.Align.END;
+            coin_price.visible = true;
+
         var coin_percentage = new Gtk.Label ("+ 0.79%");
             coin_percentage.halign = Gtk.Align.END;
+            coin_percentage.visible = true;
 
         var coin_image = new Gtk.Image.from_icon_name (icon_name, Gtk.IconSize.LARGE_TOOLBAR);
             coin_image.halign = Gtk.Align.START;
+            coin_image.visible = true;
 
         var coin_name_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
             coin_name_box.spacing = 6;
+            coin_name_box.visible = true;
             coin_name_box.add (coin_name);
             coin_name_box.add (coin_abbr);
 
         var coin_price_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
             coin_price_box.spacing = 6;
+            coin_price_box.visible = true;
             coin_price_box.add (coin_price);
             coin_price_box.add (coin_percentage);
 
@@ -58,27 +106,33 @@ public class CoinWidget : Gtk.ListBoxRow {
     }
 }
 
+public class CryptoApp : Gtk.Application {
 
-public class Crypto : Gtk.Application {
-    public Crypto () {
+    private CoinService coin_service;
+
+    public CryptoApp () {
         Object (
             application_id: "com.github.hmleal.crypto",
             flags: ApplicationFlags.FLAGS_NONE
         );
+
+        this.coin_service = new CoinService ();
+
     }
 
     protected override void activate () {
         Gtk.ApplicationWindow window = new Gtk.ApplicationWindow (this);
 
         window.set_default_size (600, 500);
+        window.set_titlebar (new Crypto.Layouts.HeaderBar ());
+
         window.window_position = Gtk.WindowPosition.CENTER;
-        window.set_titlebar (new CoinHeaderBar ());
 
-        var mainBox = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
-            mainBox.valign = Gtk.Align.START;
-            mainBox.get_style_context ().add_class ("frame");
+        var main_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
+            main_box.valign = Gtk.Align.START;
+            main_box.get_style_context ().add_class ("frame");
 
-            mainBox.margin = 32;
+            main_box.margin = 32;
 
         string[] coins = {
             "com.github.com.hmleal.crypto.btc",
@@ -90,8 +144,17 @@ public class Crypto : Gtk.Application {
             listBox.set_header_func (use_list_box_separator);
 
         foreach (string coin in coins) {
-            listBox.insert (new CoinWidget (coin), -1);
+            listBox.insert (new CoinWidget (coin, "$ 123"), -1);
         }
+
+        // REQUEST DATA
+        // var coin_service = new CoinService ();
+            coin_service.request_price ();
+            coin_service.request_prices_success.connect ((coins) => {
+                foreach (var coin in coins) {
+                    listBox.insert (new CoinWidget ("com.github.com.hmleal.crypto.btc", coin.value.to_string()), -1);
+                }
+            });
 
         var action = new GLib.SimpleAction ("about", null);
         action.activate.connect (() => {
@@ -118,9 +181,9 @@ public class Crypto : Gtk.Application {
 
         add_action (action);
 
-        mainBox.pack_start (listBox);
+        main_box.pack_start (listBox);
 
-        window.add (mainBox);
+        window.add (main_box);
         window.show_all ();
     }
 
@@ -141,7 +204,7 @@ public class Crypto : Gtk.Application {
     }
 
     public static int main (string[] args) {
-        Crypto app = new Crypto ();
+        CryptoApp app = new CryptoApp ();
         return app.run (args);
     }
 }

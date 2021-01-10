@@ -11,6 +11,8 @@ You can install Cryptocurrency from source
 ### Install Dependencies
 
 - `gtk+-3.0>=3.18`
+- `json-glib-1.0`
+- `libsoup-2.4>=2.38`
 
 ### Compile & Run
 
@@ -36,4 +38,4 @@ ninja
 + [ ] General
   + [ ] Add a License
   + [ ] Contribuition guideline
-  
+

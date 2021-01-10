@@ -4,10 +4,14 @@ executable(
 
     'Application.vala',
 
+    'Layouts/HeaderBar.vala',
+
     resources,
 
     dependencies: [
-        dependency('gtk+-3.0')
+        dependency ('gtk+-3.0'),
+        dependency ('json-glib-1.0'),
+        dependency ('libsoup-2.4', version: '>= 2.38'),
     ],
     install: true
 )
