@@ -81,9 +81,9 @@ public class Crypto : Gtk.Application {
             mainBox.margin = 32;
 
         string[] coins = {
-            "com.github.com.hmleal.crypto.bitcoin-btc",
-            "com.github.com.hmleal.crypto.bitcoin-cash-bch",
-            "com.github.com.hmleal.crypto.ethereum-eth",
+            "com.github.com.hmleal.crypto.btc",
+            "com.github.com.hmleal.crypto.bch",
+            "com.github.com.hmleal.crypto.eth",
         };
 
         var listBox = new Gtk.ListBox ();
