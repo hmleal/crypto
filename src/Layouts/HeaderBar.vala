@@ -1,4 +1,4 @@
-class Crypto.Layouts.HeaderBar : Gtk.HeaderBar {
+public class Crypto.Layouts.HeaderBar : Gtk.HeaderBar {
 
     public HeaderBar () {
         title = "Crypto";

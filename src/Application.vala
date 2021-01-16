@@ -12,9 +12,12 @@ public class Coin {
         this.value = value;
     }
 
+    public string get_value() {
+        char[] buf = new char[double.DTOSTR_BUF_SIZE];
+
+        return this.value.format(buf, "%.2f");
+    }
 }
-
-
 
 public class CoinService {
 
@@ -90,11 +93,11 @@ public class CoinWidget : Gtk.ListBoxRow {
             coin_name.halign = Gtk.Align.START;
             coin_name.visible = true;
 
-        var coin_abbr = new Gtk.Label ("BTC");
+        var coin_abbr = new Gtk.Label (coin.abbr);
             coin_abbr.halign = Gtk.Align.START;
             coin_abbr.visible = true;
 
-        var coin_price = new Gtk.Label (coin.value.to_string ());
+        var coin_price = new Gtk.Label ("€ " + coin.get_value ());
             coin_price.halign = Gtk.Align.END;
             coin_price.visible = true;
 
