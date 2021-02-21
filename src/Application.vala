@@ -12,10 +12,10 @@ public class Coin {
         this.value = value;
     }
 
-    public string get_value() {
+    public string get_value () {
         char[] buf = new char[double.DTOSTR_BUF_SIZE];
 
-        return this.value.format(buf, "%.2f");
+        return this.value.format (buf, "%.2f");
     }
 }
 
@@ -27,7 +27,7 @@ public class CoinService {
         // https://min-api.cryptocompare.com/data/pricemulti?fsyms=BTC,ETH&tsyms=EUR
 
         Soup.Session session = new Soup.Session ();
-        Soup.Message message = new Soup.Message ("GET", "https://min-api.cryptocompare.com/data/pricemulti?fsyms=BTC,ETH&tsyms=EUR");
+        Soup.Message message = new Soup.Message ("GET", "https://min-api.cryptocompare.com/data/pricemulti?fsyms=BTC,BCH&tsyms=EUR");
 
         session.queue_message (message, (sess, mess) => {
             if (message.status_code == 200) {
@@ -51,6 +51,9 @@ public class CoinService {
                                 break;
                             case "ETH":
                                 coin_name = "Ethereum";
+                                break;
+                            case "BCH":
+                                coin_name = "Bitcoin Cash";
                                 break;
                         }
 
@@ -93,9 +96,13 @@ public class CoinWidget : Gtk.ListBoxRow {
             coin_name.halign = Gtk.Align.START;
             coin_name.visible = true;
 
+            coin_name.get_style_context ().add_class ("coin-title");
+
         var coin_abbr = new Gtk.Label (coin.abbr);
             coin_abbr.halign = Gtk.Align.START;
             coin_abbr.visible = true;
+
+            coin_abbr.get_style_context ().add_class ("coin-abbr");
 
         var coin_price = new Gtk.Label ("€ " + coin.get_value ());
             coin_price.halign = Gtk.Align.END;
@@ -142,7 +149,6 @@ public class CryptoApp : Gtk.Application {
         );
 
         this.coin_service = new CoinService ();
-
     }
 
     protected override void activate () {
@@ -153,31 +159,26 @@ public class CryptoApp : Gtk.Application {
 
         window.window_position = Gtk.WindowPosition.CENTER;
 
+        Gtk.CssProvider css_provider = new Gtk.CssProvider ();
+        css_provider.load_from_resource ("stylesheet.css");
+
+        Gtk.StyleContext.add_provider_for_screen (
+            Gdk.Screen.get_default (), css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+        );
+
         var main_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
             main_box.valign = Gtk.Align.START;
             main_box.get_style_context ().add_class ("frame");
 
             main_box.margin = 32;
 
-        //  string[] coins = {
-        //      "com.github.com.hmleal.crypto.btc",
-        //      "com.github.com.hmleal.crypto.bch",
-        //      "com.github.com.hmleal.crypto.eth",
-        //  };
+        var list_box = new Gtk.ListBox ();
+            list_box.set_header_func (use_list_box_separator);
 
-        var listBox = new Gtk.ListBox ();
-            listBox.set_header_func (use_list_box_separator);
-
-        //  foreach (string coin in coins) {
-        //      listBox.insert (new CoinWidget (coin, "$ 123"), -1);
-        //  }
-
-        // REQUEST DATA
-        // var coin_service = new CoinService ();
         coin_service.request_price ();
         coin_service.request_prices_success.connect ((coins) => {
             foreach (var coin in coins) {
-                listBox.insert (new CoinWidget (coin), -1);
+                list_box.insert (new CoinWidget (coin), -1);
             }
         });
 
@@ -199,14 +200,14 @@ public class CryptoApp : Gtk.Application {
                                    "license-type", Gtk.License.LGPL_2_1,
                                    "program-name", "Crypto",
                                    "logo-icon-name", "LOGO",
-                                   "version", "0.0.1",
+                                   "version", "0.0.2",
                                    "website", "",
                                    "wrap-license", true);
         });
 
         add_action (action);
 
-        main_box.pack_start (listBox);
+        main_box.pack_start (list_box);
 
         window.add (main_box);
         window.show_all ();
