@@ -1,18 +1,127 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<!-- Creator: CorelDRAW 2019 (64-Bit) -->
-<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="100%" height="100%" version="1.1" shape-rendering="geometricPrecision" text-rendering="geometricPrecision" image-rendering="optimizeQuality" fill-rule="evenodd" clip-rule="evenodd" viewBox="0 0 784.37 1277.39" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xodm="http://www.corel.com/coreldraw/odm/2003">
- <g id="Layer_x0020_1">
-  <metadata id="CorelCorpID_0Corel-Layer"/>
-  <g id="_1421394342400">
-   <g>
-    <polygon fill="#343434" fill-rule="nonzero" points="392.07,0 383.5,29.11 383.5,873.74 392.07,882.29 784.13,650.54 "/>
-    <polygon fill="#8C8C8C" fill-rule="nonzero" points="392.07,0 -0,650.54 392.07,882.29 392.07,472.33 "/>
-    <polygon fill="#3C3C3B" fill-rule="nonzero" points="392.07,956.52 387.24,962.41 387.24,1263.28 392.07,1277.38 784.37,724.89 "/>
-    <polygon fill="#8C8C8C" fill-rule="nonzero" points="392.07,1277.38 392.07,956.52 -0,724.89 "/>
-    <polygon fill="#141414" fill-rule="nonzero" points="392.07,882.29 784.13,650.54 392.07,472.33 "/>
-    <polygon fill="#393939" fill-rule="nonzero" points="0,650.54 392.07,882.29 392.07,472.33 "/>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="32"
+   height="32"
+   viewBox="0 0 32 32"
+   version="1.1"
+   id="svg8"
+   inkscape:version="1.0.2 (e86c870879, 2021-01-15)"
+   sodipodi:docname="com.github.com.hmleal.crypto.eth.svg">
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="4.2459674"
+     inkscape:cx="36.061314"
+     inkscape:cy="76.520429"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     inkscape:document-rotation="0"
+     showgrid="false"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     inkscape:window-width="1920"
+     inkscape:window-height="1001"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       id="rect216"
+       width="8.4666662"
+       height="8.4666662"
+       x="0"
+       y="0"
+       style="fill:none;stroke-width:0.240041" />
+    <g
+       style="clip-rule:evenodd;fill-rule:evenodd;image-rendering:optimizeQuality;shape-rendering:geometricPrecision;text-rendering:geometricPrecision"
+       id="g214"
+       transform="matrix(0.00662815,0,0,0.00662815,1.6338721,-1.2690674e-8)">
+      <g
+         id="Layer_x0020_1-3">
+  <metadata
+   id="CorelCorpID_0Corel-Layer-6" />
+
+  <g
+   id="_1421394342400">
+   <g
+   id="g192">
+    <polygon
+   fill="#343434"
+   fill-rule="nonzero"
+   points="392.07,0 383.5,29.11 383.5,873.74 392.07,882.29 784.13,650.54 "
+   id="polygon180" />
+
+    <polygon
+   fill="#8c8c8c"
+   fill-rule="nonzero"
+   points="392.07,882.29 392.07,472.33 392.07,0 0,650.54 "
+   id="polygon182" />
+
+    <polygon
+   fill="#3c3c3b"
+   fill-rule="nonzero"
+   points="392.07,956.52 387.24,962.41 387.24,1263.28 392.07,1277.38 784.37,724.89 "
+   id="polygon184" />
+
+    <polygon
+   fill="#8c8c8c"
+   fill-rule="nonzero"
+   points="392.07,956.52 0,724.89 392.07,1277.38 "
+   id="polygon186" />
+
+    <polygon
+   fill="#141414"
+   fill-rule="nonzero"
+   points="784.13,650.54 392.07,472.33 392.07,882.29 "
+   id="polygon188" />
+
+    <polygon
+   fill="#393939"
+   fill-rule="nonzero"
+   points="392.07,882.29 392.07,472.33 0,650.54 "
+   id="polygon190" />
+
    </g>
+
   </g>
+
  </g>
+    </g>
+  </g>
+  <style
+     type="text/css"
+     id="style144">
+	.st0{fill-rule:evenodd;clip-rule:evenodd;fill:#8DC351;}
+	.st1{fill:#FFFFFF;}
+</style>
 </svg>

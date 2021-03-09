@@ -11,10 +11,10 @@ public class Crypto.Layouts.HeaderBar : Gtk.HeaderBar {
 
     private void build_ui () {
         var btn_add = new Gtk.Button.with_label ("Add");
-        var btn_image = new Gtk.Image.from_icon_name ("open-menu-symbolic", Gtk.IconSize.BUTTON);
+        var btn_img = new Gtk.Image.from_icon_name ("open-menu-symbolic", Gtk.IconSize.BUTTON);
 
         var btn_settings = new Gtk.MenuButton ();
-            btn_settings.set_image (btn_image);
+            btn_settings.set_image (btn_img);
 
         var builder = new Gtk.Builder.from_resource ("/ui/menus.ui");
         MenuModel menu = (MenuModel) builder.get_object ("app-menu");

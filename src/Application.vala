@@ -108,6 +108,8 @@ public class CoinWidget : Gtk.ListBoxRow {
             coin_price.halign = Gtk.Align.END;
             coin_price.visible = true;
 
+            coin_price.get_style_context ().add_class ("coin-price");
+
         var coin_percentage = new Gtk.Label ("+ 0.79%");
             coin_percentage.halign = Gtk.Align.END;
             coin_percentage.visible = true;
@@ -156,6 +158,7 @@ public class CryptoApp : Gtk.Application {
 
         window.set_default_size (600, 500);
         window.set_titlebar (new Crypto.Layouts.HeaderBar ());
+        window.icon_name = "com.github.com.hmleal";
 
         window.window_position = Gtk.WindowPosition.CENTER;
 
@@ -176,11 +179,21 @@ public class CryptoApp : Gtk.Application {
             list_box.set_header_func (use_list_box_separator);
 
         coin_service.request_price ();
+        Timeout.add_seconds(2, () => {
+            coin_service.request_price ();
+            return true;
+        });
+
         coin_service.request_prices_success.connect ((coins) => {
+            foreach (var box in list_box.get_children ()) {
+                list_box.remove(box);
+            }
+
             foreach (var coin in coins) {
                 list_box.insert (new CoinWidget (coin), -1);
             }
         });
+
 
         var action = new GLib.SimpleAction ("about", null);
         action.activate.connect (() => {
